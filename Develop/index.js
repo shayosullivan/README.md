@@ -1,5 +1,4 @@
 // TODO: Include packages needed for this application
-
 const inquirer = require("inquirer");
 const fs = require("fs");
 
@@ -9,7 +8,6 @@ const generateMarkdown = ({
   install,
   usage,
   contribute,
-  test,
   license,
   github,
   linkedIn,
@@ -33,24 +31,20 @@ ${usage}
 ${license}
 ## Contributing
 ${contribute}
-## Tests
-${test}
 ## Questions
 #### GitHub Profile
 [${github}](https://github.com/shayosullivan) 
-#### LinkedIn Profile
-[${linkedIn}](https://www.linkedin.com/in/seamus-o-sullivan-2274b1238/) 
+#### LinkedIn Profile(https://www.linkedin.com/in/seamus-o-sullivan-2274b1238/)
+[${linkedIn}]
   `;
 };
-
-// TODO: Create an array of questions for user input
 
 // TODO: Create an array of questions for user input
 inquirer
   .prompt([
     {
       type: "input",
-      message: "Project title:",
+      message: "Title of project:",
       name: "title",
     },
     {
@@ -60,17 +54,17 @@ inquirer
     },
     {
       type: "input",
-      message: "How to Install:",
+      message: "Installation instructions:",
       name: "install",
     },
     {
       type: "input",
-      message: "Usage Info:",
+      message: "How is this project used:",
       name: "usage",
     },
     {
       type: "input",
-      message: "How do you Contribute:",
+      message: "How do you contribute to this project:",
       name: "contribute",
     },
 

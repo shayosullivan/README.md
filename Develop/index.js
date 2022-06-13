@@ -2,100 +2,77 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 
-const generateMarkdown = ({
-  title,
-  description,
-  install,
-  usage,
-  contribute,
-  license,
-  github,
-  linkedIn,
-}) => {
-  return `# ${title}
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-* [License](#license)
-* [Contributing](#contributing)
-* [Tests](#tests)
-* [Questions](#questions)
-    
-## Description
-${description}
-## Installation
-${install}
-## Usage
-${usage}
-## License
-${license}
-## Contributing
-${contribute}
-## Questions
-#### GitHub Profile
-[${github}](https://github.com/shayosullivan) 
-#### LinkedIn Profile(https://www.linkedin.com/in/seamus-o-sullivan-2274b1238/)
-[${linkedIn}]
-  `;
-};
+const generateMarkdown = require("./utils/generateMarkdown");
 
 // TODO: Create an array of questions for user input
-inquirer
-  .prompt([
-    {
-      type: "input",
-      message: "Title of project:",
-      name: "title",
-    },
-    {
-      type: "input",
-      message: "Description of project:",
-      name: "description",
-    },
-    {
-      type: "input",
-      message: "Installation instructions:",
-      name: "install",
-    },
-    {
-      type: "input",
-      message: "How is this project used:",
-      name: "usage",
-    },
-    {
-      type: "input",
-      message: "How do you contribute to this project:",
-      name: "contribute",
-    },
-
-    {
-      type: "list",
-      message: "What license did you use:",
-      name: "license",
-      choices: [
-        "The MIT License",
-        "The GPL License",
-        "Apache License",
-        "GNU License",
-      ],
-    },
-    {
-      type: "input",
-      message: "GitHub username:",
-      name: "github",
-    },
-    {
-      type: "input",
-      message: "LinkedIn username:",
-      name: "linkedIn",
-    },
-  ])
-  .then((data) => {
-    //generateMarkdown(data);
-    fs.writeFile("README.md", generateMarkdown(data), (err) => {
-      if (err) console.log(err);
-      else {
-        console.log("Success!");
-      }
-    });
+const questions = [
+  {
+    type: "input",
+    message: "What is your name?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is your GitHub username?",
+    name: "username",
+  },
+  {
+    type: "input",
+    message: "What is your email address?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What is your project's name?",
+    name: "title",
+  },
+  {
+    type: "input",
+    message: "Please write a shore description of your project.",
+    name: "description",
+  },
+  {
+    type: "list",
+    message: "What kind of license should your project have?",
+    name: "license",
+    choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "NONE"],
+  },
+  {
+    type: "input",
+    message: "What command should be run to install dependencies?",
+    name: "installation",
+    default: "npm install",
+  },
+  {
+    type: "input",
+    message: "What does the user need to know about using the repo?",
+    name: "usage",
+  },
+  {
+    type: "input",
+    name: "contributing",
+    message:
+      "Please specify any guidelines for possible contributors to follow.",
+  },
+  {
+    type: "input",
+    message: "What command should be run to run tests?",
+    name: "tests",
+    default: "npm test",
+  },
+];
+function writeToFile(fileName, data) {
+  fs.writeFile(fileName, data, (err) => {
+    err
+      ? console.log(err)
+      : console.log("You have successfully generated a Readme file.!");
   });
+}
+
+const init = () => {
+  inquirer.prompt(questions).then((response) => {
+    writeToFile("README.md", generateMarkdown(response));
+  });
+};
+
+init();
